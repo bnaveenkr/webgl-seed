@@ -1,2 +1,2 @@
 # webgl-seed
-This is a seed project for creating webgl examples
+This is a bolierplate code for creating webgl examples
