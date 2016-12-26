@@ -28,19 +28,6 @@ else {
     var colorUniformLocation = gl.getUniformLocation(program, "u_color");
 
 
-    var positionBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-    var positions = [
-        10, 20,
-        80, 20,
-        10, 30,
-        10, 30,
-        80, 20,
-        80, 30
-    ];
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
-
-
 
     gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 
@@ -49,11 +36,11 @@ else {
     gl.useProgram(program);
 
     gl.uniform2f(resolutionUniformLocation, gl.canvas.width, gl.canvas.height);
-    gl.uniform4f(colorUniformLocation, Math.random(), Math.random(), Math.random(), 1);
 
 
     gl.enableVertexAttribArray(positionAttributeLocation);
 
+    var positionBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
 
     var size = 2;
@@ -63,11 +50,30 @@ else {
     var offset = 0;
     gl.vertexAttribPointer(positionAttributeLocation, size, type, normalize, stride, offset);
 
+    for (var i=0; i<50; i++) {
 
-    var primitiveType = gl.TRIANGLES;
-    var offset = 0;
-    var count = 6;
-    gl.drawArrays(primitiveType, offset, count);
+        setRectangle(gl, randomInt(512), randomInt(512), randomInt(512), randomInt(512));
+
+        gl.uniform4f(colorUniformLocation, Math.random(), Math.random(), Math.random(), 1);
+
+        gl.drawArrays(gl.TRIANGLES, 0, 6);
+
+    }
+
+    function setRectangle(gl, x, y, width, height) {
+        var x1 = x;
+        var x2 = x + width;
+        var y1 = y;
+        var y2 = y + height;
+
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+            x1, y1,
+            x2, y1,
+            x1, y2,
+            x1, y2,
+            x2, y1,
+            x2, y2]), gl.STATIC_DRAW)
+    }
 }
 
 
